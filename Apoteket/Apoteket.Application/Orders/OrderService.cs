@@ -11,33 +11,38 @@ namespace Apoteket.Application.Orders
             _repository = repository;
         }
 
-        public bool Delete()
+        public async Task<Order> GetAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _repository.GetAsync(id);
         }
 
-        public Order Get(int id)
+        public async Task<IEnumerable<Order>> GetAsync()
         {
-            return new Order();
+            return await _repository.GetAsync();
         }
 
-        public IEnumerable<Order> Get()
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<Order> Create(string itemName, int quantity)
+        public async Task<Order> CreateAsync(string itemName, int quantity)
         {
             var orderToCreate = new Order { ItemName = itemName, Quantity = quantity };
 
-            await _repository.Add(orderToCreate);
+            await _repository.CreateAsync(orderToCreate);
 
             return orderToCreate;
         }
 
-        public bool Update(int id, string itemName, int quantity)
+        public async Task<bool> UpdateAsync(int id, string itemName, int quantity)
         {
-            throw new NotImplementedException();
+            var orderToCreate = new Order { Id = id, ItemName = itemName, Quantity = quantity };
+            var updated = await _repository.UpdateAsync(orderToCreate);
+
+            return updated != null;
+        }
+
+        public async Task<bool> DeleteAsync()
+        {
+            var deleted = await _repository.DeleteAsync();
+
+            return deleted!.Any();
         }
     }
 }

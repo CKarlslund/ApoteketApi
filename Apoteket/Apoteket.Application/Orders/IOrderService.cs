@@ -4,10 +4,10 @@ namespace Apoteket.Application.Orders
 {
     public interface IOrderService
     {
-        Order Get(int id);
-        IEnumerable<Order> Get();
-        Task<Order> Create(string itemName, int quantity);
-        bool Update(int id, string itemName, int quantity);
-        bool Delete();
+        Task<Order> GetAsync(int id);
+        Task<IEnumerable<Order>> GetAsync();
+        Task<Order> CreateAsync(string itemName, int quantity);
+        Task<bool> UpdateAsync(int id, string itemName, int quantity);
+        Task<bool> DeleteAsync();
     }
 }

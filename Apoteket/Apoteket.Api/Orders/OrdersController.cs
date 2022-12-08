@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Apoteket.Api.Orders
 {
-
     [ApiController]
     [Route("api/[controller]")]
     public class OrdersController : ControllerBase
@@ -19,9 +18,9 @@ namespace Apoteket.Api.Orders
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<GetOrderResponse>> Get()
+        public async Task<ActionResult<IEnumerable<GetOrderResponse>>> Get()
         {
-            var orderResults = _orderService.Get();
+            var orderResults = await _orderService.GetAsync();
 
             if (orderResults == null)
             {
@@ -35,9 +34,9 @@ namespace Apoteket.Api.Orders
         }
 
         [HttpGet("{id}")]
-        public ActionResult<GetOrderResponse> Get(int id)
+        public async Task<ActionResult<GetOrderResponse>> Get(int id)
         {
-            var orderResult = _orderService.Get(id);
+            var orderResult = await _orderService.GetAsync(id);
 
             if (orderResult == null)
             {
@@ -53,7 +52,7 @@ namespace Apoteket.Api.Orders
         [HttpPost]
         public async Task<ActionResult<CreateOrderResponse>> Post(CreateOrderRequest createOrderRequest)
         {
-            var createdResult = await _orderService.Create(createOrderRequest.ItemName, createOrderRequest.Quantity);
+            var createdResult = await _orderService.CreateAsync(createOrderRequest.ItemName, createOrderRequest.Quantity);
 
             if (createdResult == null)
             {
@@ -67,15 +66,15 @@ namespace Apoteket.Api.Orders
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(int id, UpdateOrderRequest updateOrderRequest)
+        public async Task<IActionResult> Update(int id, UpdateOrderRequest updateOrderRequest)
         {
             if (id != updateOrderRequest.Id)
             {
-                return BadRequest();
+                return BadRequest("Ids did not match.");
             }
 
             //I probably want an optional here with error handling etc instead of just a bool
-            var updated = _orderService.Update(updateOrderRequest.Id, updateOrderRequest.ItemName, updateOrderRequest.Quantity);
+            var updated = await _orderService.UpdateAsync(updateOrderRequest.Id, updateOrderRequest.ItemName, updateOrderRequest.Quantity);
 
             if (!updated)
             {
@@ -86,10 +85,10 @@ namespace Apoteket.Api.Orders
         }
 
         [HttpDelete]
-        public IActionResult Delete()
+        public async Task<IActionResult> Delete()
         {
             //I probably want an optional here with error handling etc instead of just a bool
-            var deleted = _orderService.Delete();
+            var deleted = await _orderService.DeleteAsync();
             
             if (!deleted) {
                 return Problem("Could not delete.");
