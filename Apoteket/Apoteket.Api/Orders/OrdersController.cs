@@ -6,7 +6,7 @@ namespace Apoteket.Api.Orders
 {
 
     [ApiController]
-    [Route("[api/controller]")]
+    [Route("api/[controller]")]
     public class OrdersController : ControllerBase
     {
         private readonly ILogger<OrdersController> _logger;
@@ -19,7 +19,7 @@ namespace Apoteket.Api.Orders
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<GetOrderResponse>> GetOrders()
+        public ActionResult<IEnumerable<GetOrderResponse>> Get()
         {
             var orderResults = _orderService.Get();
 
@@ -35,7 +35,7 @@ namespace Apoteket.Api.Orders
         }
 
         [HttpGet("{id}")]
-        public ActionResult<GetOrderResponse> GetOrder(int id, IOrderService _orderService)
+        public ActionResult<GetOrderResponse> Get(int id, IOrderService _orderService)
         {
             var orderResult = _orderService.Get(id);
 
@@ -51,7 +51,7 @@ namespace Apoteket.Api.Orders
         }
 
         [HttpPost]
-        public ActionResult<CreateOrderResponse> PostTodoItem(CreateOrderRequest createOrderRequest, IOrderService _orderService)
+        public ActionResult<CreateOrderResponse> Post(CreateOrderRequest createOrderRequest, IOrderService _orderService)
         {
             var createdResult = _orderService.Create(createOrderRequest.ItemName, createOrderRequest.Quantity);
 
@@ -67,7 +67,7 @@ namespace Apoteket.Api.Orders
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateOrder(int id, UpdateOrderRequest updateOrderRequest)
+        public IActionResult Update(int id, UpdateOrderRequest updateOrderRequest)
         {
             if (id != updateOrderRequest.Id)
             {
@@ -85,8 +85,8 @@ namespace Apoteket.Api.Orders
             return NoContent();
         }
 
-        [HttpDelete()]
-        public IActionResult DeleteOrder()
+        [HttpDelete]
+        public IActionResult Delete()
         {
             //I probably want an optional here with error handling etc instead of just a bool
             var deleted = _orderService.Delete();
