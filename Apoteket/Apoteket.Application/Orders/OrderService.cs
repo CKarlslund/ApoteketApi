@@ -7,7 +7,7 @@
             throw new NotImplementedException();
         }
 
-        public bool Delete(int id)
+        public bool Delete()
         {
             throw new NotImplementedException();
         }

@@ -85,11 +85,11 @@ namespace Apoteket.Api.Orders
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
-        public IActionResult DeleteOrder(int id)
+        [HttpDelete()]
+        public IActionResult DeleteOrder()
         {
             //I probably want an optional here with error handling etc instead of just a bool
-            var deleted = _orderService.Delete(id);
+            var deleted = _orderService.Delete();
             
             if (!deleted) {
                 return Problem("Could not delete.");
