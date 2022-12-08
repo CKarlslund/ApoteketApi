@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Apoteket.Application\Apoteket.Application.csproj" />
+  </ItemGroup>
+
 </Project>
