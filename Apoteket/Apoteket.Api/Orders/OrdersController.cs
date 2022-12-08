@@ -35,7 +35,7 @@ namespace Apoteket.Api.Orders
         }
 
         [HttpGet("{id}")]
-        public ActionResult<GetOrderResponse> Get(int id, IOrderService _orderService)
+        public ActionResult<GetOrderResponse> Get(int id)
         {
             var orderResult = _orderService.Get(id);
 
@@ -51,9 +51,9 @@ namespace Apoteket.Api.Orders
         }
 
         [HttpPost]
-        public ActionResult<CreateOrderResponse> Post(CreateOrderRequest createOrderRequest, IOrderService _orderService)
+        public async Task<ActionResult<CreateOrderResponse>> Post(CreateOrderRequest createOrderRequest)
         {
-            var createdResult = _orderService.Create(createOrderRequest.ItemName, createOrderRequest.Quantity);
+            var createdResult = await _orderService.Create(createOrderRequest.ItemName, createOrderRequest.Quantity);
 
             if (createdResult == null)
             {
@@ -63,7 +63,7 @@ namespace Apoteket.Api.Orders
             //TODO: Map in mapper
             var createdResponse = new CreateOrderResponse(createdResult.Id, createdResult.ItemName, createdResult.Quantity);
 
-            return CreatedAtAction(nameof(OrdersController), createdResponse);
+            return CreatedAtAction(nameof(Get), createdResponse);
         }
 
         [HttpPut("{id}")]

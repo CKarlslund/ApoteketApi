@@ -1,10 +1,14 @@
-﻿namespace Apoteket.Application.Orders
+﻿using Apoteket.Domain.Orders;
+
+namespace Apoteket.Application.Orders
 {
     public class OrderService : IOrderService
     {
-        public OrderResult Create(string itemName, int quantity)
+        private readonly IOrderRepository _repository;
+
+        public OrderService(IOrderRepository repository)
         {
-            throw new NotImplementedException();
+            _repository = repository;
         }
 
         public bool Delete()
@@ -12,14 +16,23 @@
             throw new NotImplementedException();
         }
 
-        public OrderResult Get(int id)
+        public Order Get(int id)
         {
-            return new OrderResult();
+            return new Order();
         }
 
-        public IEnumerable<OrderResult> Get()
+        public IEnumerable<Order> Get()
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<Order> Create(string itemName, int quantity)
+        {
+            var orderToCreate = new Order { ItemName = itemName, Quantity = quantity };
+
+            await _repository.Add(orderToCreate);
+
+            return orderToCreate;
         }
 
         public bool Update(int id, string itemName, int quantity)
