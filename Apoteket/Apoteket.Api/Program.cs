@@ -1,4 +1,6 @@
 using Apoteket.Application.Orders;
+using Apoteket.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +11,10 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+//Temporary in memory database - to get rid of the dependency to Infrastructure it's possible to move Dependency injection to Application project
+builder.Services.AddDbContext<OrderDbContext>(opt =>
+    opt.UseInMemoryDatabase("Orders"));
 
 var app = builder.Build();
 
