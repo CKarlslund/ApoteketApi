@@ -17,7 +17,7 @@
             return new OrderResult();
         }
 
-        public IEnumerable<OrderResult> GetOrders()
+        public IEnumerable<OrderResult> Get()
         {
             throw new NotImplementedException();
         }

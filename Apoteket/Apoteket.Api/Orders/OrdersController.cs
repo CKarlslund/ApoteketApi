@@ -21,7 +21,7 @@ namespace Apoteket.Api.Orders
         [HttpGet]
         public ActionResult<IEnumerable<GetOrderResponse>> GetOrders()
         {
-            var orderResults = _orderService.GetOrders();
+            var orderResults = _orderService.Get();
 
             if (orderResults == null)
             {
